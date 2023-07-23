@@ -10,4 +10,9 @@ POST
 -------------------------------------------------------------*/
 router.post("/", verifyRole, cashierControllers.addCashier);
 
+/*------------------------------------------------------------
+PATCH
+-------------------------------------------------------------*/
+router.patch("/edit/email", verifyRole, cashierControllers.editEmailCashier);
+
 export default router;
