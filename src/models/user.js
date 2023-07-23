@@ -32,7 +32,7 @@ export const User = db.sequelize.define(
 
     password: {
       type: DataTypes.STRING(255),
-      allowNull: false,
+      defaultValue: null,
     },
 
     photo_profile: {
