@@ -17,4 +17,9 @@ GET
 -------------------------------------------------------------*/
 router.get("/keep-login", verifyUser, authControllers.keepLogin);
 
+/*------------------------------------------------------------
+PATCH
+-------------------------------------------------------------*/
+router.patch("/reset-password/:uuidWithContext", authControllers.resetPassword);
+
 export default router;
