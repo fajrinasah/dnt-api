@@ -6,6 +6,11 @@ import * as cashierControllers from "./index.js";
 const router = Router();
 
 /*------------------------------------------------------------
+GET
+-------------------------------------------------------------*/
+router.get("/:username", verifyRole, cashierControllers.getCashier);
+
+/*------------------------------------------------------------
 POST
 -------------------------------------------------------------*/
 router.post("/", verifyRole, cashierControllers.addCashier);
