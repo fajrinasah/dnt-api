@@ -44,6 +44,7 @@ app.get("/", (req, res) => {
 // USE ROUTERS
 /*-------------------------------------------------------*/
 app.use("/api/auth", routers.authRouters);
+app.use("/api/cashier", routers.cashierRouters);
 
 /*-------------------------------------------------------*/
 // USE ERROR HANDLER
