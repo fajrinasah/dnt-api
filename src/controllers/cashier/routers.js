@@ -15,4 +15,9 @@ PATCH
 -------------------------------------------------------------*/
 router.patch("/edit/email", verifyRole, cashierControllers.editEmailCashier);
 
+/*------------------------------------------------------------
+DELETE
+-------------------------------------------------------------*/
+router.delete("/:username", verifyRole, cashierControllers.inactivateCashier);
+
 export default router;
