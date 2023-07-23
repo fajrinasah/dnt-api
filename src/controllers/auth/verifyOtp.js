@@ -3,15 +3,11 @@ import moment from "moment";
 import * as errorStatus from "../../middlewares/globalErrorHandler/errorStatus.js";
 import * as errorMessage from "../../middlewares/globalErrorHandler/errorMessage.js";
 import { User } from "../../models/user.js";
-import db from "../../database/index.js";
 
 /*----------------------------------------------------*/
 // VERIFY OTP TOKEN
 /*----------------------------------------------------*/
 export const verifyOtp = async (req, res, next) => {
-  // START TRANSACTION
-  const transaction = await db.sequelize.transaction();
-
   try {
     const { uuidWithContext } = req.params;
     const { token } = req.body;
@@ -46,30 +42,31 @@ export const verifyOtp = async (req, res, next) => {
       };
 
     // DO ACTIONS BASED ON CONTEXT
-    if (context === "react") {
+    if (context === "act" || context === "react") {
       // UPDATE USER'S STATUS TO "active"
       await User?.update(
         { user_status_id: 2, otp: null, otp_exp: null },
         { where: { uuid: cleanedUuid } }
       );
 
-      // SEND RESPONSE
-      res.status(200).json({
-        message: "Account was reactivated successfully.",
-      });
+      if (context === "act") {
+        // SEND RESPONSE
+        res.status(200).json({
+          message: "Account was activated successfully.",
+        });
+      } else if (context === "react") {
+        // SEND RESPONSE
+        res.status(200).json({
+          message: "Account was reactivated successfully.",
+        });
+      }
     }
-
-    // COMMIT TRANSACTION
-    await transaction.commit();
 
     // SEND RESPONSE
     res.status(200).json({
       message: "Successfully verified.",
     });
   } catch (error) {
-    // ROLLBACK TRANSACTION IF THERE'S ANY ERROR
-    await transaction.rollback();
-
     next(error);
   }
 };

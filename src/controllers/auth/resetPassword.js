@@ -24,13 +24,11 @@ export const resetPassword = async (req, res, next) => {
     const context = uuidWithContext.split("-")[0];
     const cleanedUuid = uuidWithContext.split("-")?.slice(1)?.join("-");
 
-    // CHECK IF CONTEXT === "rpw"
-    if (context !== "rpw")
+    // CHECK IF CONTEXT === "rpw" or "act"
+    if (context !== "rpw" && context !== "act")
       throw {
         status: errorStatus.BAD_REQUEST_STATUS,
-        message:
-          errorMessage.BAD_REQUEST_STATUS +
-          `: context is not for reset password.`,
+        message: errorMessage.BAD_REQUEST_STATUS + `: context is not valid.`,
       };
 
     // DECRYPT HASHED PASSWORD FROM CLIENT
@@ -48,10 +46,17 @@ export const resetPassword = async (req, res, next) => {
     // COMMIT TRANSACTION
     await transaction.commit();
 
-    // SEND RESPONSE
-    res.status(200).json({
-      message: "Password was successfully reset. Please login again.",
-    });
+    if (context === "act") {
+      // SEND RESPONSE
+      res.status(200).json({
+        message: "Password was added successfully. Please login.",
+      });
+    } else {
+      // SEND RESPONSE
+      res.status(200).json({
+        message: "Password was successfully reset. Please login again.",
+      });
+    }
   } catch (error) {
     // ROLLBACK TRANSACTION IF THERE'S ANY ERROR
     await transaction.rollback();
