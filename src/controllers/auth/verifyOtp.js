@@ -3,15 +3,19 @@ import moment from "moment";
 import * as errorStatus from "../../middlewares/globalErrorHandler/errorStatus.js";
 import * as errorMessage from "../../middlewares/globalErrorHandler/errorMessage.js";
 import { User } from "../../models/user.js";
+import db from "../../database/index.js";
 
 /*----------------------------------------------------*/
 // VERIFY OTP TOKEN
 /*----------------------------------------------------*/
 export const verifyOtp = async (req, res, next) => {
-  const { uuidWithContext } = req.params;
-  const { token } = req.body;
+  // START TRANSACTION
+  const transaction = await db.sequelize.transaction();
 
   try {
+    const { uuidWithContext } = req.params;
+    const { token } = req.body;
+
     // CHECK CONTEXT FROM UUID PREFIX
     const context = uuidWithContext.split("-")[0];
     const cleanedUuid = uuidWithContext.split("-")?.slice(1)?.join("-");
@@ -55,11 +59,17 @@ export const verifyOtp = async (req, res, next) => {
       });
     }
 
+    // COMMIT TRANSACTION
+    await transaction.commit();
+
     // SEND RESPONSE
     res.status(200).json({
       message: "Successfully verified.",
     });
   } catch (error) {
+    // ROLLBACK TRANSACTION IF THERE'S ANY ERROR
+    await transaction.rollback();
+
     next(error);
   }
 };

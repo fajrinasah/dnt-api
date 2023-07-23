@@ -103,6 +103,9 @@ export const requestOtp = async (req, res, next) => {
       message: `OTP token was sent successfully to ${email}`,
     });
   } catch (error) {
+    // ROLLBACK TRANSACTION IF THERE'S ANY ERROR
+    await transaction.rollback();
+
     // CHECK IF THE ERROR COMES FROM VALIDATION
     if (error instanceof ValidationError) {
       console.error(chalk.bgRedBright("Validation Error: "));
