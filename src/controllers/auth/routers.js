@@ -9,6 +9,7 @@ const router = Router();
 POST
 -------------------------------------------------------------*/
 router.post("/login", authControllers.login);
+router.post("/request-otp", authControllers.requestOtp);
 
 /*------------------------------------------------------------
 GET
