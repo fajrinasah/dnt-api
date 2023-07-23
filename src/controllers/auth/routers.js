@@ -10,6 +10,7 @@ POST
 -------------------------------------------------------------*/
 router.post("/login", authControllers.login);
 router.post("/request-otp", authControllers.requestOtp);
+router.post("/verify-otp/:uuidWithContext", authControllers.verifyOtp);
 
 /*------------------------------------------------------------
 GET
