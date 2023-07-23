@@ -12,6 +12,7 @@ import chalk from "chalk";
 /*-------------------------------------------------------*/
 import * as middlewares from "./src/middlewares/index.js";
 import * as helpers from "./src/helpers/index.js";
+import * as routers from "./src/controllers/routers/index.js";
 
 /*-------------------------------------------------------*/
 // DEPENDENCIES CONFIGURATIONS
@@ -29,7 +30,7 @@ app.use(middlewares.requestLogger);
 /*-------------------------------------------------------*/
 // TEST CONNECTION
 /*-------------------------------------------------------*/
-// helpers.connect.withRedis();
+helpers.connect.withRedis();
 helpers.connect.withSequelize();
 
 /*-------------------------------------------------------*/
@@ -42,6 +43,7 @@ app.get("/", (req, res) => {
 /*-------------------------------------------------------*/
 // USE ROUTERS
 /*-------------------------------------------------------*/
+app.use("/api/auth", routers.authRouters);
 
 /*-------------------------------------------------------*/
 // USE ERROR HANDLER

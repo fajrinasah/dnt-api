@@ -31,6 +31,7 @@ const db_config = Object.freeze({
 ---------------------------------------------------------*/
 export const JWT_SECRET_KEY = process.env.JWT_SECRET_KEY;
 export const OTP_SECRET_KEY = process.env.OTP_SECRET_KEY;
+export const ENCRYPTION_SECRET_KEY = process.env.ENCRYPTION_SECRET_KEY;
 
 export const GMAIL = process.env.GMAIL;
 export const GMAIL_APP_KEY = process.env.GMAIL_APP_KEY;
