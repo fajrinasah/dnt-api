@@ -6,8 +6,8 @@ ADD PRODUCT VALIDATION SCHEMA
 export const addProductValidationSchema = Yup.object({
   name: Yup.string()
     .required("Product name is required.")
-    .min(3, "Email address' length should be between 3 to 45 characters.")
-    .max(45, "Email address' length should be between 3 to 45 characters."),
+    .min(3, "Product name's length should be between 3 to 45 characters.")
+    .max(45, "Product name's length should be between 3 to 45 characters."),
 
   description: Yup.string()
     .required("Product description is required.")
