@@ -46,6 +46,7 @@ app.get("/", (req, res) => {
 app.use("/api/auth", routers.authRouters);
 app.use("/api/cashier", routers.cashierRouters);
 app.use("/api/cashiers", routers.cashiersRouters);
+app.use("/api/category", routers.categoryRouters);
 
 /*-------------------------------------------------------*/
 // USE ERROR HANDLER
