@@ -4,6 +4,13 @@ import cashierRouters from "../cashier/routers.js";
 import cashiersRouters from "../cashiers/routers.js";
 
 import categoryRouters from "../category/routers.js";
+import categoriesRouters from "../categories/routers.js";
 
 // EXPORT ALL ROUTERS AS ROUTER OBJECT
-export { authRouters, cashierRouters, cashiersRouters, categoryRouters };
+export {
+  authRouters,
+  cashierRouters,
+  cashiersRouters,
+  categoryRouters,
+  categoriesRouters,
+};
