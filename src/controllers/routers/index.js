@@ -1,16 +1,21 @@
 // IMPORT ALL ROUTERS
 import authRouters from "../auth/routers.js";
+import profilesRouters from "../profiles/routers.js";
 import cashierRouters from "../cashier/routers.js";
 import cashiersRouters from "../cashiers/routers.js";
-
-import productControllers from "../product/routers.js";
-import productsControllers from "../products/routers.js";
+import categoryRouters from "../category/routers.js";
+import categoriesRouters from "../categories/routers.js";
+import productRouters from "../product/routers.js";
+import productsRouters from "../products/routers.js";
 
 // EXPORT ALL ROUTERS AS ROUTER OBJECT
 export {
   authRouters,
+  profilesRouters,
   cashierRouters,
   cashiersRouters,
-  productControllers,
-  productsControllers,
+  categoryRouters,
+  categoriesRouters,
+  productRouters,
+  productsRouters,
 };

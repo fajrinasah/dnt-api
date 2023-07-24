@@ -44,10 +44,16 @@ app.get("/", (req, res) => {
 // USE ROUTERS
 /*-------------------------------------------------------*/
 app.use("/api/auth", routers.authRouters);
+app.use("/api/profiles", routers.profilesRouters);
+
 app.use("/api/cashier", routers.cashierRouters);
 app.use("/api/cashiers", routers.cashiersRouters);
-app.use("/api/product", routers.productControllers);
-app.use("/api/products", routers.productsControllers);
+
+app.use("/api/category", routers.categoryRouters);
+app.use("/api/categories", routers.categoriesRouters);
+
+app.use("/api/product", routers.productRouters);
+app.use("/api/products", routers.productsRouters);
 
 /*-------------------------------------------------------*/
 // USE ERROR HANDLER
