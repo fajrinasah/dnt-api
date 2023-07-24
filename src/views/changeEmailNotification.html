@@ -104,26 +104,10 @@
         text-align: center;
       }
 
-      .important {
-        padding: 2rem 0 5rem 0;
-
-        font-size: 2.5rem;
+      .identifier {
         font-weight: bold;
-        color: var(--contrast);
-      }
-
-      main a {
-        transition: all 3ms ease-in-out;
-      }
-
-      main a:hover {
-        color: var(--accent);
-        transform: scale(0.95);
-      }
-
-      .additional-info {
-        text-align: center;
-        font-style: italic;
+        color: var(--main);
+        background-color: var(--contrast);
       }
 
       footer {
@@ -148,7 +132,7 @@
       }
     </style>
 
-    <title>OTP Token for Verification</title>
+    <title>Notification</title>
   </head>
 
   <body>
@@ -162,27 +146,26 @@
       </div>
     </header>
     <main>
-      <h1>OTP Token for Verification</h1>
-
-      <p class="primary-info">Your requested OTP token is</p>
+      <h1>[Notification] Email has been changed</h1>
 
       <p class="primary-info">
-        <span class="important">{{otpToken}}</span>
+        Hi,
+        <span class="identifier"> {{username}} </span>
       </p>
 
       <p class="primary-info">
-        OTP will expire in <strong><em>5 minutes</em></strong
-        >. Please verify your account using the OTP token above. You can start
-        by clicking the link below to go to OTP verification page.
+        Email for your dnt app account has been changed by dnt's admin.
+      </p>
+
+      <p class="primary-info">
         <strong>
-          Please do not share OTP token and the link to other people.
+          If you have not requested to change your email, please contact dnt's
+          admin immediately.
         </strong>
       </p>
 
-      <a href="{{link}}" class="important">Verify OTP</a>
-
-      <p class="additional-info">
-        If you are not part of dnt's team, please ignore this email.
+      <p class="primary-info">
+        Account verification mail has been sent to your new email.
       </p>
     </main>
     <footer>
