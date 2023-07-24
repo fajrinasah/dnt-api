@@ -1,6 +1,10 @@
 import { Router } from "express";
 
-import { verifyRole, productImageDestroyer } from "../../middlewares/index.js";
+import {
+  verifyRole,
+  productImageDestroyer,
+  verifyUser,
+} from "../../middlewares/index.js";
 import * as productControllers from "./index.js";
 import {
   createUploader,
@@ -24,6 +28,7 @@ router.post(
 /*------------------------------------------------------------
 GET
 -------------------------------------------------------------*/
+router.get("/:productId", verifyUser, productControllers.getProduct);
 
 /*------------------------------------------------------------
 PATCH
