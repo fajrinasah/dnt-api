@@ -42,4 +42,10 @@ router.patch(
   productControllers.editProductInfo
 );
 
+router.patch(
+  "/edit/status/:productId",
+  verifyRole,
+  productControllers.editProductStatus
+);
+
 export default router;
