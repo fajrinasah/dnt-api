@@ -47,6 +47,8 @@ app.use("/api/auth", routers.authRouters);
 app.use("/api/profiles", routers.profilesControllers);
 app.use("/api/cashier", routers.cashierRouters);
 app.use("/api/cashiers", routers.cashiersRouters);
+app.use("/api/category", routers.categoryRouters);
+app.use("/api/categories", routers.categoriesRouters);
 
 /*-------------------------------------------------------*/
 // USE ERROR HANDLER
