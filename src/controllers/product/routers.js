@@ -29,6 +29,14 @@ GET
 PATCH
 -------------------------------------------------------------*/
 router.patch(
+  "/edit/image/:productId",
+  verifyRole,
+  productImageDestroyer,
+  uploader.single("file"),
+  productControllers.editProductImage
+);
+
+router.patch(
   "/edit/info/:productId",
   verifyRole,
   productControllers.editProductInfo

@@ -2,6 +2,8 @@ import { v2 as cloudinary } from "cloudinary";
 
 import { Product } from "../../models/product.js";
 import * as config from "../../configs/index.js";
+import * as errorStatus from "../../middlewares/globalErrorHandler/errorStatus.js";
+import * as errorMessage from "../../middlewares/globalErrorHandler/errorMessage.js";
 
 export async function productImageDestroyer(req, res, next) {
   try {
@@ -11,6 +13,14 @@ export async function productImageDestroyer(req, res, next) {
     const product = await Product?.findOne({
       where: { id: productId },
     });
+
+    if (!product)
+      throw {
+        status: errorStatus.BAD_REQUEST_STATUS,
+        message:
+          errorMessage.BAD_REQUEST +
+          ": no product can be found based on id input.",
+      };
 
     // DELETE CURRENT PHOTO PROFILE FROM CLOUDINARY (IF ANY)
     const currentProductImage = product?.dataValues?.image;
