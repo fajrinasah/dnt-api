@@ -104,6 +104,12 @@
         text-align: center;
       }
 
+      .identifier {
+        font-weight: bold;
+        color: var(--main);
+        background-color: var(--contrast);
+      }
+
       .important {
         padding: 2rem 0 5rem 0;
 
@@ -148,7 +154,7 @@
       }
     </style>
 
-    <title>OTP Token for Verification</title>
+    <title>Account Verification</title>
   </head>
 
   <body>
@@ -162,24 +168,28 @@
       </div>
     </header>
     <main>
-      <h1>OTP Token for Verification</h1>
+      <h1>Changed Email Verification</h1>
 
-      <p class="primary-info">Your requested OTP token is</p>
+      <p class="primary-info">
+        Email for your account has been changed into
+        <span class="identifier">{{email}}</span> by dnt's admin.
+      </p>
+
+      <p class="primary-info">Your OTP token to re-activate the account is</p>
 
       <p class="primary-info">
         <span class="important">{{otpToken}}</span>
       </p>
 
       <p class="primary-info">
-        OTP will expire in <strong><em>5 minutes</em></strong
-        >. Please verify your account using the OTP token above. You can start
-        by clicking the link below to go to OTP verification page.
+        Please re-activate your account by clicking the link below to go to
+        account activation page.
         <strong>
           Please do not share OTP token and the link to other people.
         </strong>
       </p>
 
-      <a href="{{link}}" class="important">Verify OTP</a>
+      <a href="{{link}}" class="important">Re-activate Account</a>
 
       <p class="additional-info">
         If you are not part of dnt's team, please ignore this email.
