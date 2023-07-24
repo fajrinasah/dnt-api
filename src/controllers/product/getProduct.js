@@ -1,4 +1,5 @@
-import { Product } from "../../models/product.js";
+// import { Product } from "../../models/product.js";
+import { ProductDetail } from "../../models/product_detail.js";
 import * as errorStatus from "../../middlewares/globalErrorHandler/errorStatus.js";
 import * as errorMessage from "../../middlewares/globalErrorHandler/errorMessage.js";
 
@@ -10,7 +11,7 @@ export const getProduct = async (req, res, next) => {
     const { productId } = req.params;
 
     // CHECK IF PRODUCT EXISTS
-    const product = await Product?.findOne({
+    const product = await ProductDetail?.findOne({
       where: { id: productId },
     });
 
