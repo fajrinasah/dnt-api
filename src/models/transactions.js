@@ -30,6 +30,6 @@ export const Transactions = db.sequelize.define(
     tableName: "transactions",
     timestamps: true,
     createdAt: "created_at",
-    updatedAt: false, // Assuming you don't need the `updated_at` field
+    updatedAt: "updated_at",
   }
 );

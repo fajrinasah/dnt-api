@@ -33,6 +33,6 @@ export const TransactionsProducts = db.sequelize.define(
   },
   {
     tableName: "transactions_products",
-    timestamps: false, // Assuming you don't need timestamps for this association table
+    timestamps: false,
   }
 );
