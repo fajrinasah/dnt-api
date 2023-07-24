@@ -7,6 +7,7 @@ import categoryRouters from "../category/routers.js";
 import categoriesRouters from "../categories/routers.js";
 import productRouters from "../product/routers.js";
 import productsRouters from "../products/routers.js";
+import transactionsRouters from "../transactions/routers.js";
 
 // EXPORT ALL ROUTERS AS ROUTER OBJECT
 export {
@@ -18,4 +19,5 @@ export {
   categoriesRouters,
   productRouters,
   productsRouters,
+  transactionsRouters
 };

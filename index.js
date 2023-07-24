@@ -55,6 +55,8 @@ app.use("/api/categories", routers.categoriesRouters);
 app.use("/api/product", routers.productRouters);
 app.use("/api/products", routers.productsRouters);
 
+app.use("/api/transaction", routers.transactionsRouters);
+
 /*-------------------------------------------------------*/
 // USE ERROR HANDLER
 /*-------------------------------------------------------*/
