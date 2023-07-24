@@ -28,5 +28,10 @@ GET
 /*------------------------------------------------------------
 PATCH
 -------------------------------------------------------------*/
+router.patch(
+  "/edit/info/:productId",
+  verifyRole,
+  productControllers.editProductInfo
+);
 
 export default router;
