@@ -1,7 +1,7 @@
 import { ValidationError } from "yup";
 import chalk from "chalk";
 
-import { Category } from "../../models/category.js";
+import { Category } from "../../models/associations.js";
 import * as errorStatus from "../../middlewares/globalErrorHandler/errorStatus.js";
 import * as errorMessage from "../../middlewares/globalErrorHandler/errorMessage.js";
 import * as validation from "./validationSchemata/index.js";
@@ -13,7 +13,7 @@ export const editCategory = async (req, res, next) => {
   try {
     // GET CATEGORY'S NEW DATA
     const { categoryId } = req.params;
-    const { name, parent_id } = req.body;
+    const { name } = req.body;
 
     // VALIDATE DATA
     await validation.editCategoryValidationSchema.validate(req.body);
@@ -36,33 +36,31 @@ export const editCategory = async (req, res, next) => {
       where: { name },
     });
 
-    if (categoryAlreadyExists)
+    if (categoryAlreadyExists) {
+      if (
+        categoryAlreadyExists?.dataValues?.id === categoryExists?.dataValues?.id
+      )
+        throw {
+          status: errorStatus.BAD_REQUEST_STATUS,
+          message:
+            errorMessage.BAD_REQUEST +
+            `: no changes applied because old name is same as the new one.`,
+        };
+
       throw {
         status: errorStatus.BAD_REQUEST_STATUS,
         message:
           errorMessage.BAD_REQUEST +
           `: category with the same name already exists (category with id ${categoryAlreadyExists?.dataValues?.id})`,
       };
-
-    // COMPILE DATA THAT WILL BE UPDATED
-    const updateFields = {};
-
-    if (name) {
-      updateFields.name = name;
-    }
-
-    if (parent_id) {
-      updateFields.parent_id = parent_id;
     }
 
     // UPDATE CATEGORY DATA
-    await Category?.update(updateFields, {
-      where: { id: categoryId },
-    });
+    await Category?.update({ name }, { where: { id: categoryId } });
 
     // SEND RESPONSE
     res.status(200).json({
-      message: "Category was updated successfully.",
+      message: "Category's name was updated successfully.",
     });
   } catch (error) {
     // IF ERROR FROM VALIDATION

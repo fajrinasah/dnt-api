@@ -32,11 +32,6 @@ export const Product = db.sequelize.define(
       allowNull: false,
     },
 
-    category_id: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-    },
-
     product_status_id: {
       type: DataTypes.INTEGER,
       allowNull: false,

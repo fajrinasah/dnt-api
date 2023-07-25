@@ -32,14 +32,17 @@ export const getAllProducts = async (req, res, next) => {
     /*------------------------------------------------------*/
     const whereCondition = {};
 
+    // BASED ON SUBSTRING IN CATEGORY'S NAME OR PATH
     if (category) {
-      whereCondition.category_id = category;
+      whereCondition.category_name = { [Op.substring]: category };
     }
 
+    // BASED ON PRODUCT'S STATUS
     if (status) {
       whereCondition.product_status_id = status;
     }
 
+    // BASED ON SUBSTRING IN PRODUCT'S NAME
     if (name) {
       whereCondition.name = { [Op.substring]: name };
     }
@@ -72,7 +75,9 @@ export const getAllProducts = async (req, res, next) => {
     });
 
     // const total_cashiers = cashiers.length;
-    const total_products = await Product?.count({ where: whereCondition });
+    const total_products = await Product?.count({
+      where: whereCondition,
+    });
 
     const total_pages = page ? Math.ceil(total_products / options.limit) : null;
 

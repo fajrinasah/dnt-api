@@ -5,6 +5,7 @@
 import { Product } from "../../models/product.js";
 import { Transactions } from "../../models/transactions.js";
 import { TransactionsProducts } from "../../models/transactions_products.js";
+import { Invoices } from "../../models/invoices.js";
 import { User } from "../../models/user.js";
 import * as errorStatus from "../../middlewares/globalErrorHandler/errorStatus.js";
 import * as errorMessage from "../../middlewares/globalErrorHandler/errorMessage.js";
@@ -28,7 +29,7 @@ export const addTransaction = async (req, res, next) => {
     if (foundProducts.length !== productIds.length) {
       throw {
         status: errorStatus.BAD_REQUEST_STATUS,
-        message: errorMessage.NOT_FOUND + ": Some products not found.",
+        message: errorMessage.DATA_NOT_FOUND + ": Some products not found.",
       };
     }
 
@@ -63,6 +64,11 @@ export const addTransaction = async (req, res, next) => {
       transaction_id: transaction.id,
     }));
     await TransactionsProducts.bulkCreate(updatedTransactionsProducts);
+
+    // CREATE THE INVOICES RECORD
+    const invoices = await Invoices.create({
+      transaction_id: transaction.id
+    });
 
     // SEND RESPONSE
     res.status(200).json({

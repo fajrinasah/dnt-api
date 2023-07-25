@@ -1,8 +1,8 @@
 import { DataTypes } from "sequelize";
 import db from "../database/index.js";
 
-export const CategoryPath = db.sequelize.define(
-  "vw_category_path",
+export const Invoices = db.sequelize.define(
+  "invoices",
   {
     id: {
       type: DataTypes.INTEGER,
@@ -11,19 +11,20 @@ export const CategoryPath = db.sequelize.define(
       autoIncrement: true,
     },
 
-    name: {
-      type: DataTypes.STRING(45),
+    transaction_id: {
+      type: DataTypes.INTEGER,
       allowNull: false,
-      unique: true,
     },
 
-    path: {
-      type: DataTypes.STRING,
+    created_at: {
+      type: DataTypes.DATE,
       allowNull: false,
     },
   },
   {
-    tableName: "vw_category_paths",
-    timestamps: false,
+    tableName: "invoices",
+    timestamps: true,
+    createdAt: "created_at",
+    updatedAt: false,
   }
 );

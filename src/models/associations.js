@@ -1,13 +1,15 @@
 // IMPORT MODELS
 import { User } from "./user.js";
-import { Role } from "./role.js";
-import { UserStatus } from "./user_status.js";
+import { Role } from "./Role.js";
+import { UserStatus } from "./UserStatus.js";
 
 import { Product } from "./product.js";
-import { Category } from "./category.js";
-import { ProductStatus } from "./product_status.js";
+import { Category } from "./Category.js";
+import { ProductStatus } from "./ProductStatus.js";
+import { ProductCategory } from "./ProductCategory.js";
 import { Transactions } from "./transactions.js";
 import { TransactionsProducts } from "./transactions_products.js";
+import { Invoices } from "./invoices.js";
 
 // ASSOCIATION BETWEEN USER'S ROLE & USER
 Role.hasMany(User, {
@@ -28,11 +30,22 @@ User.belongsTo(UserStatus, {
 });
 
 // ASSOCIATION BETWEEN PRODUCT'S CATEGORY & PRODUCT
-Category.hasMany(Product, {
+Category.belongsToMany(Product, {
+  through: "products_categories",
   foreignKey: "category_id",
 });
 
-Product.belongsTo(Category, {
+Product.belongsToMany(Category, {
+  through: "products_categories",
+  foreignKey: "product_id",
+});
+
+// ASSOCIATION BETWEEN PRODUCT'S CATEGORY & CATEGORY
+Category.hasMany(ProductCategory, {
+  foreignKey: "category_id",
+});
+
+ProductCategory.belongsTo(Category, {
   foreignKey: "category_id",
 });
 
@@ -58,5 +71,21 @@ Product.belongsToMany(Transactions, {
   otherKey: 'transaction_id',
 });
 
+// ASSOCIATION BETWEEN INVOICES AND TRANSACTIONS
+Invoices.belongsTo(Transactions, {
+  foreignKey: 'transaction_id',
+});
+
 // EXPORT MODELS
-export { Category, Product, ProductStatus, Role, User, UserStatus, Transactions, TransactionsProducts };
+export {
+  Category,
+  Product,
+  ProductCategory,
+  ProductStatus,
+  Role,
+  User,
+  UserStatus,
+  Transactions,
+  TransactionsProducts,
+  Invoices
+};

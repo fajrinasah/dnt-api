@@ -1,8 +1,8 @@
 import { DataTypes } from "sequelize";
 import db from "../database/index.js";
 
-export const Transactions = db.sequelize.define(
-  "transactions",
+export const ProductCategory = db.sequelize.define(
+  "product_category",
   {
     id: {
       type: DataTypes.INTEGER,
@@ -11,25 +11,19 @@ export const Transactions = db.sequelize.define(
       autoIncrement: true,
     },
 
-    cashier_id: {
+    product_id: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
 
-    total_transaction_price: {
+    category_id: {
       type: DataTypes.INTEGER,
-      allowNull: false,
-    },
-
-    created_at: {
-      type: DataTypes.DATE,
-      allowNull: false,
     },
   },
   {
-    tableName: "transactions",
+    tableName: "products_categories",
     timestamps: true,
     createdAt: "created_at",
-    updatedAt: false,
+    updatedAt: "updated_at",
   }
 );
