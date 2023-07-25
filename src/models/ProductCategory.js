@@ -22,6 +22,8 @@ export const ProductCategory = db.sequelize.define(
   },
   {
     tableName: "products_categories",
-    timestamps: false,
+    timestamps: true,
+    createdAt: "created_at",
+    updatedAt: "updated_at",
   }
 );
