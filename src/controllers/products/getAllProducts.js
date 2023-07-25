@@ -1,85 +1,43 @@
-import { Op } from "sequelize";
+import { QueryTypes } from "sequelize";
 
-import { Product } from "../../models/associations.js";
 import * as errorStatus from "../../middlewares/globalErrorHandler/errorStatus.js";
 import * as errorMessage from "../../middlewares/globalErrorHandler/errorMessage.js";
+import {
+  countProductsQueryBuilder,
+  productsQueryBuilder,
+} from "../../helpers/index.js";
+import db from "../../database/index.js";
 
 /*----------------------------------------------------*/
 // GET ALL PRODUCT'S DATA (with pagination, filtering, and sorting)
 /*----------------------------------------------------*/
 export const getAllProducts = async (req, res, next) => {
   try {
-    const {
-      page = 1,
+    const { page, status, category, name, timesort, pricesort, namesort } =
+      req.query;
+
+    // BUILD RAW QUERY TO GET DATA
+    const queryData = productsQueryBuilder({
+      page,
       status,
       category,
       name,
       timesort,
       pricesort,
       namesort,
-    } = req.query;
+    });
 
-    /*------------------------------------------------------*/
-    // PAGINATION OPTIONS
-    /*------------------------------------------------------*/
-    const options = {
-      offset: page > 1 ? parseInt(page - 1) * 5 : 0,
-      limit: page ? 5 : null,
-    };
+    // BUILD RAW QUERY TO COUNT DATA
+    const countData = countProductsQueryBuilder({ status, category, name });
 
-    /*------------------------------------------------------*/
-    // WHERE CONDITION(S)
-    /*------------------------------------------------------*/
-    const whereCondition = {};
-
-    // BASED ON SUBSTRING IN CATEGORY'S NAME OR PATH
-    if (category) {
-      whereCondition.category_name = { [Op.substring]: category };
-    }
-
-    // BASED ON PRODUCT'S STATUS
-    if (status) {
-      whereCondition.product_status_id = status;
-    }
-
-    // BASED ON SUBSTRING IN PRODUCT'S NAME
-    if (name) {
-      whereCondition.name = { [Op.substring]: name };
-    }
-
-    /*------------------------------------------------------*/
-    // SORT OPTION
-    /*------------------------------------------------------*/
-    let sortOption = [];
-
-    if (timesort) {
-      sortOption.push(["id", timesort === "ASC" ? "ASC" : "DESC"]);
-    }
-    if (pricesort) {
-      sortOption.push(["price", pricesort === "ASC" ? "ASC" : "DESC"]);
-    }
-    if (namesort) {
-      sortOption.push(["name", namesort === "ASC" ? "ASC" : "DESC"]);
-    }
-
-    /*------------------------------------------------------*/
     // GET DATA FROM DB
-    /*------------------------------------------------------*/
-    const products = await Product.findAll({
-      where: whereCondition,
-
-      order: sortOption,
-
-      // PAGINATION OPTIONS
-      ...options,
+    const products = await db.sequelize.query(queryData, {
+      logging: console.log,
+      plain: false,
+      raw: true,
+      nest: true,
+      type: QueryTypes.SELECT,
     });
-
-    // const total_cashiers = cashiers.length;
-    const total_products = await Product?.count({
-      where: whereCondition,
-    });
-
-    const total_pages = page ? Math.ceil(total_products / options.limit) : null;
 
     // CHECK IF THERE'S NO DATA
     if (!products.length)
@@ -88,12 +46,25 @@ export const getAllProducts = async (req, res, next) => {
         message: errorMessage.DATA_NOT_FOUND + ": no products data yet",
       };
 
+    // COUNT DATA
+    const count = await db.sequelize.query(countData, {
+      logging: console.log,
+      plain: false,
+      raw: true,
+      nest: true,
+      type: QueryTypes.SELECT,
+    });
+
+    // FOR PAGINATION DATA
+    const limit = 10;
+    const total_pages = Math.ceil(count?.[0]?.total_products / limit);
+
     // SEND RESPONSE
     res.status(200).json({
       page,
       total_pages,
-      total_products,
-      products_limit: options.limit,
+      total_products: count?.[0]?.total_products,
+      products_limit: limit,
       products,
     });
   } catch (error) {
