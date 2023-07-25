@@ -1,8 +1,8 @@
 import { DataTypes } from "sequelize";
 import db from "../database/index.js";
 
-export const Category = db.sequelize.define(
-  "category",
+export const ProductCategory = db.sequelize.define(
+  "product_category",
   {
     id: {
       type: DataTypes.INTEGER,
@@ -11,14 +11,17 @@ export const Category = db.sequelize.define(
       autoIncrement: true,
     },
 
-    name: {
-      type: DataTypes.STRING(45),
+    product_id: {
+      type: DataTypes.INTEGER,
       allowNull: false,
-      unique: true,
+    },
+
+    category_id: {
+      type: DataTypes.INTEGER,
     },
   },
   {
-    tableName: "categories",
+    tableName: "products_categories",
     timestamps: true,
     createdAt: "created_at",
     updatedAt: "updated_at",

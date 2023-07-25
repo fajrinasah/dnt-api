@@ -1,7 +1,6 @@
 import { Op } from "sequelize";
 
-// import { Product } from "../../models/associations.js";
-import { ProductDetail } from "../../models/product_detail.js";
+import { Product } from "../../models/associations.js";
 import * as errorStatus from "../../middlewares/globalErrorHandler/errorStatus.js";
 import * as errorMessage from "../../middlewares/globalErrorHandler/errorMessage.js";
 
@@ -66,7 +65,7 @@ export const getAllProducts = async (req, res, next) => {
     /*------------------------------------------------------*/
     // GET DATA FROM DB
     /*------------------------------------------------------*/
-    const products = await ProductDetail.findAll({
+    const products = await Product.findAll({
       where: whereCondition,
 
       order: sortOption,
@@ -76,7 +75,7 @@ export const getAllProducts = async (req, res, next) => {
     });
 
     // const total_cashiers = cashiers.length;
-    const total_products = await ProductDetail?.count({
+    const total_products = await Product?.count({
       where: whereCondition,
     });
 
