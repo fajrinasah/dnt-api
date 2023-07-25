@@ -22,5 +22,7 @@ export const addProductValidationSchema = Yup.object({
 
   price: Yup.number().required("Product price is required."),
 
-  category_id: Yup.number().required("Product category is required."),
+  categoryIdArr: Yup.array().required(
+    "Product category field is required and must be an array."
+  ),
 });

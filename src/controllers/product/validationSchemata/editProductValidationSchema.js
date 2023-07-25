@@ -20,5 +20,5 @@ export const editProductValidationSchema = Yup.object({
 
   price: Yup.number(),
 
-  category_id: Yup.number(),
+  categoryIdArr: Yup.array(),
 });
