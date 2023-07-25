@@ -1,11 +1,11 @@
 // IMPORT MODELS
-import { User } from "./user.js";
-import { Role } from "./role.js";
-import { UserStatus } from "./user_status.js";
+import { User } from "./User.js";
+import { Role } from "./Role.js";
+import { UserStatus } from "./UserStatus.js";
 
-import { Product } from "./product.js";
-import { Category } from "./category.js";
-import { ProductStatus } from "./product_status.js";
+import { Product } from "./Product.js";
+import { Category } from "./Category.js";
+import { ProductStatus } from "./ProductStatus.js";
 
 // ASSOCIATION BETWEEN USER'S ROLE & USER
 Role.hasMany(User, {
@@ -26,13 +26,9 @@ User.belongsTo(UserStatus, {
 });
 
 // ASSOCIATION BETWEEN PRODUCT'S CATEGORY & PRODUCT
-Category.hasMany(Product, {
-  foreignKey: "category_id",
-});
+Category.belongsToMany(Product, { through: "products_categories" });
 
-Product.belongsTo(Category, {
-  foreignKey: "category_id",
-});
+Product.belongsToMany(Category, { through: "products_categories" });
 
 // ASSOCIATION BETWEEN PRODUCT'S STATUS & PRODUCT
 ProductStatus.hasMany(Product, {
