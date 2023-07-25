@@ -53,4 +53,13 @@ router.patch(
   productControllers.editProductStatus
 );
 
+/*------------------------------------------------------------
+DELETE
+-------------------------------------------------------------*/
+router.delete(
+  "/:productId/categories",
+  verifyRole,
+  productControllers.deleteProductCategory
+);
+
 export default router;
