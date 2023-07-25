@@ -6,6 +6,8 @@ import { Product } from "../../models/product.js";
 import { Transactions } from "../../models/transactions.js";
 import { TransactionsProducts } from "../../models/transactions_products.js";
 import { User } from "../../models/user.js";
+import * as errorStatus from "../../middlewares/globalErrorHandler/errorStatus.js";
+import * as errorMessage from "../../middlewares/globalErrorHandler/errorMessage.js";
 
 export const addTransaction = async (req, res, next) => {
   try {
@@ -25,7 +27,7 @@ export const addTransaction = async (req, res, next) => {
 
     if (foundProducts.length !== productIds.length) {
       throw {
-        status: errorStatus.NOT_FOUND_STATUS,
+        status: errorStatus.BAD_REQUEST_STATUS,
         message: errorMessage.NOT_FOUND + ": Some products not found.",
       };
     }
