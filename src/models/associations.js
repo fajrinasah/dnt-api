@@ -6,6 +6,7 @@ import { UserStatus } from "./UserStatus.js";
 import { Product } from "./Product.js";
 import { Category } from "./Category.js";
 import { ProductStatus } from "./ProductStatus.js";
+import { ProductCategory } from "./ProductCategory.js";
 
 // ASSOCIATION BETWEEN USER'S ROLE & USER
 Role.hasMany(User, {
@@ -26,9 +27,24 @@ User.belongsTo(UserStatus, {
 });
 
 // ASSOCIATION BETWEEN PRODUCT'S CATEGORY & PRODUCT
-Category.belongsToMany(Product, { through: "products_categories" });
+Category.belongsToMany(Product, {
+  through: "products_categories",
+  foreignKey: "category_id",
+});
 
-Product.belongsToMany(Category, { through: "products_categories" });
+Product.belongsToMany(Category, {
+  through: "products_categories",
+  foreignKey: "product_id",
+});
+
+// ASSOCIATION BETWEEN PRODUCT'S CATEGORY & CATEGORY
+Category.hasMany(ProductCategory, {
+  foreignKey: "category_id",
+});
+
+ProductCategory.belongsTo(Category, {
+  foreignKey: "category_id",
+});
 
 // ASSOCIATION BETWEEN PRODUCT'S STATUS & PRODUCT
 ProductStatus.hasMany(Product, {
@@ -40,4 +56,12 @@ Product.belongsTo(ProductStatus, {
 });
 
 // EXPORT MODELS
-export { Category, Product, ProductStatus, Role, User, UserStatus };
+export {
+  Category,
+  Product,
+  ProductCategory,
+  ProductStatus,
+  Role,
+  User,
+  UserStatus,
+};
