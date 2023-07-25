@@ -1,4 +1,4 @@
-import { Category } from "../../models/category.js";
+import { Category } from "../../models/associations.js";
 import * as errorStatus from "../../middlewares/globalErrorHandler/errorStatus.js";
 import * as errorMessage from "../../middlewares/globalErrorHandler/errorMessage.js";
 

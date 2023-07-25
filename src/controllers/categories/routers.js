@@ -1,6 +1,6 @@
 import { Router } from "express";
 
-import { verifyRole } from "../../middlewares/index.js";
+import { verifyUser } from "../../middlewares/index.js";
 import * as categoriesControllers from "./index.js";
 
 const router = Router();
@@ -8,6 +8,11 @@ const router = Router();
 /*------------------------------------------------------------
 GET
 -------------------------------------------------------------*/
-router.get("/", verifyRole, categoriesControllers.getCategories);
+router.get("/", verifyUser, categoriesControllers.getCategories);
+router.get(
+  "/product/:productId",
+  verifyUser,
+  categoriesControllers.getProductCategories
+);
 
 export default router;

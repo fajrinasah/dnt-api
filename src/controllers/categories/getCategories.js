@@ -2,14 +2,14 @@ import { Op } from "sequelize";
 
 import * as errorStatus from "../../middlewares/globalErrorHandler/errorStatus.js";
 import * as errorMessage from "../../middlewares/globalErrorHandler/errorMessage.js";
-import { CategoryPath } from "../../models/category_path.js";
+import { Category } from "../../models/Category.js";
 
 /*----------------------------------------------------*/
-// GET ALL CATEGORIES' DATA (with filtering and sorting)
+// GET ALL CATEGORIES
 /*----------------------------------------------------*/
 export const getCategories = async (req, res, next) => {
   try {
-    const { name, path, timesort, namesort } = req.query;
+    const { name, timesort, namesort } = req.query;
 
     /*------------------------------------------------------*/
     // WHERE CONDITION(S)
@@ -18,10 +18,6 @@ export const getCategories = async (req, res, next) => {
 
     if (name) {
       whereCondition.name = { [Op.substring]: name };
-    }
-
-    if (path) {
-      whereCondition.path = { [Op.substring]: path };
     }
 
     /*------------------------------------------------------*/
@@ -43,21 +39,22 @@ export const getCategories = async (req, res, next) => {
     /*------------------------------------------------------*/
     // GET DATA FROM DB
     /*------------------------------------------------------*/
-    const categoryPaths = await CategoryPath.findAll({
+    const categories = await Category.findAll({
       where: whereCondition,
       order: sortOption,
     });
 
     // CHECK IF THERE'S NO DATA
-    if (!categoryPaths.length)
+    if (!categories.length)
       throw {
         status: errorStatus.NOT_FOUND_STATUS,
-        message: errorMessage.DATA_NOT_FOUND + ": no categoy paths data yet",
+        message:
+          errorMessage.DATA_NOT_FOUND + ": there is no category data yet",
       };
 
     // SEND RESPONSE
     res.status(200).json({
-      categoryPaths,
+      categories,
     });
   } catch (error) {
     next(error);

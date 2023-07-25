@@ -1,11 +1,15 @@
 import * as errorStatus from "../../middlewares/globalErrorHandler/errorStatus.js";
 import * as errorMessage from "../../middlewares/globalErrorHandler/errorMessage.js";
-import { Product, Category } from "../../models/associations.js";
+import {
+  Product,
+  Category,
+  ProductCategory,
+} from "../../models/associations.js";
 
 /*----------------------------------------------------*/
-// GET PRODUCT'S DATA
+// GET PRODUCT'S CATEGORIES
 /*----------------------------------------------------*/
-export const getProduct = async (req, res, next) => {
+export const getProductCategories = async (req, res, next) => {
   try {
     const { productId } = req.params;
 
@@ -22,19 +26,22 @@ export const getProduct = async (req, res, next) => {
           ": no product can be found based on id input.",
       };
 
-    const product = await Product?.findAll({
-      where: { id: productId },
+    const categories = await ProductCategory?.findAll({
+      attributes: [],
+
+      where: { product_id: productId },
 
       include: [
         {
           model: Category,
+          attributes: ["id", "name"],
         },
       ],
     });
 
     // SEND RESPONSE
     res.status(200).json({
-      product,
+      categories,
     });
   } catch (error) {
     next(error);
