@@ -16,11 +16,6 @@ export const Category = db.sequelize.define(
       allowNull: false,
       unique: true,
     },
-
-    parent_id: {
-      type: DataTypes.INTEGER,
-      defaultValue: null,
-    },
   },
   {
     tableName: "categories",
