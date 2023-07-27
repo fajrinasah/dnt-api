@@ -15,8 +15,8 @@ export const getAllCashiers = async (req, res, next) => {
     // PAGINATION OPTIONS
     /*------------------------------------------------------*/
     const options = {
-      offset: page > 1 ? parseInt(page - 1) * 5 : 0,
-      limit: page ? 5 : null,
+      offset: page > 1 ? parseInt(page - 1) * 10 : 0,
+      limit: page ? 10 : null,
     };
 
     /*------------------------------------------------------*/
