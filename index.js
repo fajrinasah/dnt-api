@@ -57,6 +57,8 @@ app.use("/api/products", routers.productsRouters);
 
 app.use("/api/transaction", routers.transactionsRouters);
 
+app.use("/api/reports", routers.reportsRouters);
+
 /*-------------------------------------------------------*/
 // USE ERROR HANDLER
 /*-------------------------------------------------------*/
