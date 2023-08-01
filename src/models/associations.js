@@ -59,16 +59,16 @@ Product.belongsTo(ProductStatus, {
 });
 
 // ASSOCIATION BETWEEN TRANSACTIONS AND TRANSACTIONS PRODUCTS
-Transactions.belongsToMany(Product, {
-  through: TransactionsProducts,
+Transactions.hasMany(TransactionsProducts, {
   foreignKey: 'transaction_id',
-  otherKey: 'product_id',
 });
 
-Product.belongsToMany(Transactions, {
-  through: TransactionsProducts,
+TransactionsProducts.belongsTo(Transactions, {
+  foreignKey: 'transaction_id',
+});
+
+TransactionsProducts.belongsTo(Product, {
   foreignKey: 'product_id',
-  otherKey: 'transaction_id',
 });
 
 // ASSOCIATION BETWEEN INVOICES AND TRANSACTIONS
