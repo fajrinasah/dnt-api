@@ -8,7 +8,6 @@ import {
 } from "../../models/associations.js";
 import * as errorStatus from "../../middlewares/globalErrorHandler/errorStatus.js";
 import * as errorMessage from "../../middlewares/globalErrorHandler/errorMessage.js";
-import * as validation from "./validationSchemata/index.js";
 import db from "../../database/index.js";
 
 /*----------------------------------------------------*/
@@ -21,9 +20,6 @@ export const editProductInfo = async (req, res, next) => {
   try {
     const { productId } = req.params;
     const { name, description, price, categoryIdArr } = req.body;
-
-    // VALIDATE DATA
-    await validation.editProductValidationSchema.validate(req.body);
 
     // CHECK IF PRODUCT EXISTS
     const productExists = await Product?.findOne({
