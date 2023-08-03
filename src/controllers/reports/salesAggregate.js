@@ -7,18 +7,32 @@ import {
   Product,
   Transactions,
   TransactionsProducts,
+  User,
 } from "../../models/associations.js";
 
 export const getSalesAggregateByDay = async (req, res, next) => {
   try {
-    const { date } = req.params;
-    const transactions = await Transactions.findAll({
-      where: {
-        created_at: {
-          [Op.gte]: new Date(date),
-          [Op.lt]: new Date(date).setDate(new Date(date).getDate() + 1),
-        },
+    const { date, username } = req.query;
+
+    const whereClause = {
+      created_at: {
+        [Op.gte]: new Date(date),
+        [Op.lt]: new Date(date).setDate(new Date(date).getDate() + 1),
       },
+    };
+
+    if (username) {
+      const cashier = await User.findOne({
+        where: { username },
+      });
+
+      if (cashier) {
+        whereClause.cashier_id = cashier.id;
+      }
+    }
+
+    const transactions = await Transactions.findAll({
+      where: whereClause,
       include: [
         {
           model: TransactionsProducts,
@@ -26,7 +40,7 @@ export const getSalesAggregateByDay = async (req, res, next) => {
           include: [
             {
               model: Product,
-              attributes: ["name"],
+              attributes: ["name", "image"],
             },
           ],
         },
@@ -46,7 +60,8 @@ export const getSalesAggregateByDay = async (req, res, next) => {
         created_at: transaction.created_at,
         products: transaction.transactions_products.map((product) => ({
           product_id: product.product_id,
-          product_name: product.product.name,
+          name: product.product.name,
+          image: product.product.image,
           quantity: product.quantity,
           total_product_price: product.total_product_price,
         })),

@@ -10,10 +10,7 @@ import {
 
 export const getProductsSoldForTransaction = async (req, res, next) => {
   try {
-    const { transactionId } = req.params;
-
-    const transaction = await Transactions.findOne({
-      where: { id: transactionId },
+    const transactions = await Transactions.findAll({
       include: [
         {
           model: TransactionsProducts,
@@ -21,23 +18,35 @@ export const getProductsSoldForTransaction = async (req, res, next) => {
           include: [
             {
               model: Product,
-              attributes: ["name"],
+              attributes: ["name", "image"],
             },
           ],
         },
       ],
     });
 
-    if (!transaction) {
-      return res.status(404).json({ message: "Transaction not found." });
-    }
+    const productsSold = transactions.reduce((result, transaction) => {
+      transaction.transactions_products.forEach((product) => {
+        const { product_id, quantity, total_product_price } = product;
 
-    const productsSold = transaction.transactions_products.map((product) => ({
-      product_id: product.product_id,
-      quantity: product.quantity,
-      total_product_price: product.total_product_price,
-      product_name: product.product.name,
-    }));
+        const existingProduct = result.find((p) => p.product_id === product_id);
+
+        if (existingProduct) {
+          existingProduct.quantity += quantity;
+          existingProduct.total_product_price += total_product_price;
+        } else {
+          result.push({
+            product_id,
+            quantity,
+            total_product_price,
+            name: product.product.name,
+            image: product.product.image,
+          });
+        }
+      });
+
+      return result;
+    }, []);
 
     res.status(200).json({ productsSold });
   } catch (error) {
