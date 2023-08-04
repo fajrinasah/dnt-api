@@ -56,8 +56,7 @@ export const addCashier = async (req, res, next) => {
       email,
       username,
       otpToken,
-      link:
-        config.REDIRECT_URL + `/auth/activate/act-${user?.dataValues?.uuid}`,
+      link: config.REDIRECT_URL + `/auth/verify/act-${user?.dataValues?.uuid}`,
     });
 
     // SEND "ACCOUNT VERIFICATION" MAIL
