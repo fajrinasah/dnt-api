@@ -13,7 +13,7 @@ router.post("/sales-report", verifyUser, reportsControllers.createSalesReportByD
 /*------------------------------------------------------------
 GET
 -------------------------------------------------------------*/
-router.get("/sales-report/:date", verifyUser, reportsControllers.getSalesAggregateByDay);
-router.get("/product-sold/:transactionId", verifyUser, reportsControllers.getProductsSoldForTransaction);
+router.get("/sales-report", verifyUser, reportsControllers.getSalesAggregateByDay);
+router.get("/product-sold", verifyUser, reportsControllers.getProductsSoldForTransaction);
 
 export default router;

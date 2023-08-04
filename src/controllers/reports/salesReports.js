@@ -6,22 +6,43 @@ import { Op } from "sequelize";
 import {
   TransactionsProducts,
   Transactions,
+  Product,
+  User,
 } from "../../models/associations.js";
 
 export const createSalesReportByDateRange = async (req, res, next) => {
   try {
-    const { startDate, endDate } = req.body;
+    const { startDate, endDate, username } = req.body;
+
+    const whereClause = {
+      created_at: {
+        [Op.gte]: startDate,
+        [Op.lte]: new Date(endDate).setDate(new Date(endDate).getDate() + 1),
+      },
+    };
+
+    if (username) {
+      const cashier = await User.findOne({
+        where: { username },
+      });
+
+      if (cashier) {
+        whereClause.cashier_id = cashier.id;
+      }
+    }
 
     const transactions = await Transactions.findAll({
-      where: {
-        created_at: {
-          [Op.between]: [startDate, endDate],
-        },
-      },
+      where: whereClause,
       include: [
         {
           model: TransactionsProducts,
           attributes: ["product_id", "quantity", "total_product_price"],
+          include: [
+            {
+              model: Product,
+              attributes: ["name", "image"],
+            },
+          ],
         },
       ],
     });
@@ -44,6 +65,8 @@ export const createSalesReportByDateRange = async (req, res, next) => {
         created_at: transaction.created_at,
         products: transaction.transactions_products.map((product) => ({
           product_id: product.product_id,
+          name: product.product.name,
+          image: product.product.image,
           quantity: product.quantity,
           total_product_price: product.total_product_price,
         })),
